@@ -34,7 +34,9 @@
           color="tertiary-lighten"
           start
         ></v-icon>
-        <span class="text-tertiary-lighten"> {{ currentTime }}s</span>
+        <span class="text-tertiary-lighten">
+          {{ formatTime(currentTime) }}</span
+        >
       </v-chip>
     </v-img>
     <DisplayWord :textToDisplay="userInput"> </DisplayWord>
@@ -149,6 +151,14 @@ const stopTimer = () => {
   if (wordStartTime.value && !wordCompletionTime.value) {
     wordCompletionTime.value = Date.now() - wordStartTime.value;
   }
+};
+
+const formatTime = (seconds) => {
+  const minutes = Math.floor(seconds / 60);
+  const remainingSeconds = seconds % 60;
+  return `${minutes.toString().padStart(2, "0")}:${remainingSeconds
+    .toString()
+    .padStart(2, "0")}`;
 };
 
 const nextWord = async () => {
