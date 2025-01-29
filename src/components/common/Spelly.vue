@@ -6,19 +6,36 @@
     {{ props.text }}
   </div>
   <v-img
-    :src="`src/assets/images/${props.imageUrl}`"
+    :src="imageSource"
     class="mx-auto"
     :width="props.width ? props.width : 150"
   ></v-img>
 </template>
 
 <script setup>
-import { watch } from "vue";
+import { computed, watch } from "vue";
 
 const props = defineProps({
   text: String,
   imageUrl: String,
   width: Number,
+});
+
+const imageSource = computed(() => {
+  try {
+    new URL(props.imageUrl);
+    return props.imageUrl;
+  } catch (error) {
+    // If not a URL, assume it's a local asset
+    // Use dynamic import for local assets
+    if (props.imageUrl.startsWith("@/")) {
+      // For paths using @ alias, remove @ and treat as relative to src
+      return new URL(props.imageUrl.replace("@/", "/src/"), import.meta.url)
+        .href;
+    }
+    // For other local paths, use as is
+    return props.imageUrl;
+  }
 });
 </script>
 
