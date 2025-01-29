@@ -3,7 +3,7 @@
     <Logo class="mt-4" />
 
     <Spelly
-      image-url="@/assets/images/spelly-hi.png"
+      image-url="spelly-hi"
       text="An adult’s help is needed to log in and start your journey."
     />
 

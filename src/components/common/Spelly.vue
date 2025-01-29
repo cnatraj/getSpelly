@@ -14,6 +14,9 @@
 
 <script setup>
 import { computed, watch } from "vue";
+import spellyHi from "@/assets/images/spelly-hi.png";
+import spellyExcited from "@/assets/images/spelly-excited.png";
+import spellyReading from "@/assets/images/spelly-reading.png";
 
 const props = defineProps({
   text: String,
@@ -21,21 +24,15 @@ const props = defineProps({
   width: Number,
 });
 
+const images = {
+  "spelly-hi": spellyHi,
+  "spelly-excited": spellyExcited,
+  "spelly-reading": spellyReading,
+};
+
 const imageSource = computed(() => {
-  try {
-    new URL(props.imageUrl);
-    return props.imageUrl;
-  } catch (error) {
-    // If not a URL, assume it's a local asset
-    // Use dynamic import for local assets
-    if (props.imageUrl.startsWith("@/")) {
-      // For paths using @ alias, remove @ and treat as relative to src
-      return new URL(props.imageUrl.replace("@/", "/src/"), import.meta.url)
-        .href;
-    }
-    // For other local paths, use as is
-    return props.imageUrl;
-  }
+  console.log("props.imageUrl", props.imageUrl);
+  return images[props.imageUrl] || images["spelly-hi"];
 });
 </script>
 

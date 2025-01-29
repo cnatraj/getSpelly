@@ -3,7 +3,7 @@
     <AccountBar />
 
     <Spelly
-      image-url="@/assets/images/spelly-hi.png"
+      image-url="spelly-excited"
       :width="135"
       :text="'Well done ' + profileStore.activeProfile.name + '!'"
     />

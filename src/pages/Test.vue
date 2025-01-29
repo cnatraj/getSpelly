@@ -22,7 +22,7 @@
         </v-avatar>
       </div>
 
-      <Spelly image-url="@/assets/images/spelly-reading.png" :width="135" />
+      <Spelly image-url="spelly-reading" :width="125" />
     </v-img>
     <DisplayWord :textToDisplay="userInput" />
 

@@ -6,7 +6,7 @@
     position="center top"
   >
     <AccountBar />
-    <Spelly image-url="@/assets/images/spelly-hi.png" :width="135" />
+    <Spelly image-url="spelly-hi" :width="135" />
   </v-img>
 
   <v-skeleton-loader type="card" v-if="loading"></v-skeleton-loader>
