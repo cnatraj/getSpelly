@@ -23,9 +23,22 @@
       </div>
 
       <Spelly image-url="spelly-reading" :width="125" />
-    </v-img>
-    <DisplayWord :textToDisplay="userInput" />
 
+      <v-chip
+        color="white"
+        style="position: absolute; bottom: 10%; right: 20px"
+        size="small"
+      >
+        <v-icon
+          icon="mdi-clock-outline"
+          color="tertiary-lighten"
+          start
+        ></v-icon>
+        <span class="text-tertiary-lighten"> {{ currentTime }}s</span>
+      </v-chip>
+    </v-img>
+    <DisplayWord :textToDisplay="userInput"> </DisplayWord>
+    <div></div>
     <div class="mx-2 my-4">
       <Keyboard
         @onChange="handleWordSpellingChange"
@@ -98,6 +111,10 @@ const spellingTestId = ref("");
 const displayResult = ref(false);
 const totalPoints = ref(0);
 const correctSpellings = ref(0);
+const wordStartTime = ref(null);
+const wordCompletionTime = ref(null);
+const currentTime = ref(0);
+const timerInterval = ref(null);
 
 onMounted(async () => {
   await loadWords();
@@ -107,6 +124,31 @@ onMounted(async () => {
 
 const handleWordSpellingChange = (input) => {
   userInput.value = input;
+};
+
+const startTimer = () => {
+  stopTimer();
+
+  wordStartTime.value = Date.now();
+  wordCompletionTime.value = null;
+  currentTime.value = 0;
+  timerInterval.value = setInterval(updateTimer, 1000);
+};
+
+const updateTimer = () => {
+  if (wordStartTime.value) {
+    currentTime.value = Math.floor((Date.now() - wordStartTime.value) / 1000);
+  }
+};
+
+const stopTimer = () => {
+  if (timerInterval.value) {
+    clearInterval(timerInterval.value);
+    timerInterval.value = null;
+  }
+  if (wordStartTime.value && !wordCompletionTime.value) {
+    wordCompletionTime.value = Date.now() - wordStartTime.value;
+  }
 };
 
 const nextWord = async () => {
@@ -122,6 +164,8 @@ const nextWord = async () => {
     currentWord.value = words.value[currentIndex.value].word;
 
     speak(currentWord.value);
+    // start the timer when the word is spoken
+    startTimer();
   } else {
     // save results
     const isPerfectTest = correctSpellings.value == settingsStore.wordsPerTest;
@@ -153,6 +197,9 @@ const nextWord = async () => {
 };
 
 const checkSpelling = async () => {
+  // stop the timer
+  stopTimer();
+
   const currentWordObj = words.value[currentIndex.value];
   let points = 0;
 
@@ -170,7 +217,8 @@ const checkSpelling = async () => {
     const { error } = await markWordInTestAsComplete(
       spellingTestId.value,
       currentWordObj.id,
-      isCurrentWordCorrect.value
+      isCurrentWordCorrect.value,
+      wordCompletionTime.value
     );
     if (error) throw error;
     // nextWord();

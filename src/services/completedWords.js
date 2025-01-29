@@ -6,7 +6,12 @@ const tableName = "completed_words";
 const settingsStore = useSettingsStore();
 const profileStore = useProfileStore();
 
-export const markWordInTestAsComplete = async (testId, wordId, isCorrect) => {
+export const markWordInTestAsComplete = async (
+  testId,
+  wordId,
+  isCorrect,
+  completionTime
+) => {
   const pointsEarned = isCorrect ? settingsStore.pointsPerCorrectWord : 0;
 
   const { error } = await supabase.from(tableName).insert({
@@ -15,6 +20,7 @@ export const markWordInTestAsComplete = async (testId, wordId, isCorrect) => {
     spelling_test_id: testId,
     is_correct: isCorrect,
     points_assigned: pointsEarned,
+    completion_time_ms: completionTime,
   });
 
   return { error };
