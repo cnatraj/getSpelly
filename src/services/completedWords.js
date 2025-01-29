@@ -10,16 +10,20 @@ export const markWordInTestAsComplete = async (
   testId,
   wordId,
   isCorrect,
-  completionTime
+  completionTime,
+  timeBonus
 ) => {
   const pointsEarned = isCorrect ? settingsStore.pointsPerCorrectWord : 0;
+  const totalPoints = pointsEarned + timeBonus;
 
   const { error } = await supabase.from(tableName).insert({
     profile_id: profileStore.activeProfile.id,
     word_id: wordId,
     spelling_test_id: testId,
     is_correct: isCorrect,
-    total_points: pointsEarned,
+    time_bonus_points: timeBonus,
+    correct_word_points: pointsEarned,
+    total_points: totalPoints,
     completion_time_ms: completionTime,
   });
 

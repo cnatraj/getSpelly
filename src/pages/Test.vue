@@ -71,8 +71,7 @@
   <v-expand-transition>
     <ShowResult
       v-if="displayResult"
-      :word="currentWord"
-      :isCorrect="isCurrentWordCorrect"
+      :word-details="currentWordDetails"
       @next-word="nextWord"
     />
   </v-expand-transition>
@@ -108,6 +107,12 @@ const words = ref([]);
 const userInput = ref("");
 const currentIndex = ref(-1);
 const currentWord = ref("");
+const currentWordDetails = ref({
+  word: "",
+  isCorrect: false,
+  userInput: "",
+  timeBonus: 0,
+});
 const isCurrentWordCorrect = ref(false);
 const spellingTestId = ref("");
 const displayResult = ref(false);
@@ -161,6 +166,14 @@ const formatTime = (seconds) => {
     .padStart(2, "0")}`;
 };
 
+const calculateTimeBonus = () => {
+  if (!wordCompletionTime.value) return 0;
+  const completionTimeSeconds = wordCompletionTime.value / 1000;
+  return completionTimeSeconds <= settingsStore.timeBonusThreshold
+    ? settingsStore.timeBonusPoints
+    : 0;
+};
+
 const nextWord = async () => {
   userInput.value = "";
   // hide the results bar
@@ -212,23 +225,33 @@ const checkSpelling = async () => {
 
   const currentWordObj = words.value[currentIndex.value];
   let points = 0;
+  let timeBonus = 0;
 
   isCurrentWordCorrect.value =
     userInput.value.toLowerCase().trim() ===
     currentWord.value.toLowerCase().trim();
 
   if (isCurrentWordCorrect.value) {
-    totalPoints.value += settingsStore.pointsPerCorrectWord;
+    timeBonus = calculateTimeBonus();
+    totalPoints.value += settingsStore.pointsPerCorrectWord + timeBonus;
     correctSpellings.value++;
   }
 
+  // update currentWordDetails
+  currentWordDetails.value = {
+    word: currentWord.value,
+    isCorrect: isCurrentWordCorrect.value,
+    userInput: userInput.value,
+    timeBonus,
+  };
   displayResult.value = true;
   try {
     const { error } = await markWordInTestAsComplete(
       spellingTestId.value,
       currentWordObj.id,
       isCurrentWordCorrect.value,
-      wordCompletionTime.value
+      wordCompletionTime.value,
+      timeBonus
     );
     if (error) throw error;
     // nextWord();

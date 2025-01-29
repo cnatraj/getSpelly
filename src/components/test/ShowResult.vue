@@ -7,16 +7,23 @@
       <v-list bg-color="white">
         <v-list-subheader class="text-h6">
           {{ resultText }}
+          <p v-if="props.wordDetails.timeBonus != 0">
+            <v-chip>
+              <v-icon icon="mdi-clock-outline" start></v-icon>Time bonus: +
+              {{ props.wordDetails.timeBonus }} points</v-chip
+            >
+          </p>
         </v-list-subheader>
+
         <v-list-item>
           <div class="text-h4 text-tertiary font-weight-bold">
-            {{ props.word }}
+            {{ props.wordDetails.word }}
           </div>
 
           <template v-slot:append>
             <v-avatar color="primary">
               <v-icon
-                @click="speak(props.word)"
+                @click="speak(props.wordDetails.word)"
                 icon="mdi-volume-high"
                 color="primary-darken"
               ></v-icon>
@@ -41,11 +48,12 @@ import speak from "@/components/common/speech";
 const props = defineProps({
   word: String,
   isCorrect: Boolean,
+  wordDetails: Object,
 });
 const resultText = ref("");
 
 onMounted(() => {
-  if (props.isCorrect) {
+  if (props.wordDetails.isCorrect) {
     resultText.value = getRandomFeedback();
     new Audio(twinkle).play();
   } else {
