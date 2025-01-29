@@ -19,7 +19,7 @@ export const markWordInTestAsComplete = async (
     word_id: wordId,
     spelling_test_id: testId,
     is_correct: isCorrect,
-    points_assigned: pointsEarned,
+    total_points: pointsEarned,
     completion_time_ms: completionTime,
   });
 

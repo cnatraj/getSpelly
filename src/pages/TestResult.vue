@@ -39,7 +39,7 @@ onMounted(async () => {
 const calculatePoints = () => {
   let pointsForTest = 0;
   completedWords.value.forEach((completedWord) => {
-    pointsForTest += completedWord.points_assigned;
+    pointsForTest += completedWord.total_points;
   });
 };
 

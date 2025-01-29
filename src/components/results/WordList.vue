@@ -13,7 +13,7 @@
             size="small"
             color="tertiary"
             :prepend-icon="settingsStore.icons.points"
-            >{{ word.points_assigned }} Points</v-chip
+            >{{ word.total_points }} Points</v-chip
           >
         </v-list-item-subtitle>
       </template>
