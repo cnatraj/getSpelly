@@ -1,0 +1,65 @@
+<template>
+  <v-card color="white" class="v-card--reveal rounded-xl" elevation="4">
+    <v-card-title class="text-subtitle-1 font-weight-bold">
+      Result
+    </v-card-title>
+    <v-card-text>
+      <v-list bg-color="white">
+        <v-list-subheader class="text-h6">
+          {{ resultText }}
+        </v-list-subheader>
+        <v-list-item>
+          <div class="text-h4 text-tertiary font-weight-bold">
+            {{ props.word }}
+          </div>
+
+          <template v-slot:append>
+            <v-avatar color="primary">
+              <v-icon
+                @click="speak(props.word)"
+                icon="mdi-volume-high"
+                color="primary-darken"
+              ></v-icon>
+            </v-avatar>
+          </template>
+        </v-list-item>
+      </v-list>
+    </v-card-text>
+
+    <v-card-text>
+      <v-btn @click="$emit('nextWord')">Next Word</v-btn>
+    </v-card-text>
+  </v-card>
+</template>
+
+<script setup>
+import { onMounted, ref } from "vue";
+import { getRandomFeedback } from "../common/feedback";
+import twinkle from "@/assets/audio/twinkle.mp3";
+import speak from "@/components/common/speech";
+
+const props = defineProps({
+  word: String,
+  isCorrect: Boolean,
+});
+const resultText = ref("");
+
+onMounted(() => {
+  if (props.isCorrect) {
+    resultText.value = getRandomFeedback();
+    new Audio(twinkle).play();
+  } else {
+    resultText.value = "🤔 Hmm.. the correct spelling is";
+  }
+});
+</script>
+
+<style scoped>
+.v-card--reveal {
+  bottom: 0;
+  position: absolute;
+  width: 400px;
+  height: 50%;
+  z-index: 101;
+}
+</style>
