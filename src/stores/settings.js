@@ -10,6 +10,7 @@ export const useSettingsStore = defineStore("settings", () => {
   const icons = {
     points: "mdi-trophy",
     accuracy: "mdi-bullseye-arrow",
+    timeBonus: "mdi-clock-outline",
   };
 
   const resetSettings = () => {
