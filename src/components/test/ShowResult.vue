@@ -8,8 +8,12 @@
         <v-list-subheader class="text-h6">
           {{ resultText }}
           <p v-if="props.wordDetails.timeBonus != 0">
-            <v-chip>
-              <v-icon icon="mdi-clock-outline" start></v-icon>Time bonus: +
+            <v-chip
+              size="small"
+              color="tertiary"
+              prepend-icon="mdi-clock-outline"
+            >
+              Time bonus: +
               {{ props.wordDetails.timeBonus }} points</v-chip
             >
           </p>
