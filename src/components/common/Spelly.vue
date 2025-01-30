@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="props.text && props.text != ''"
-    class="speech-bubble pa-2 delevation-2 rounded-lg font-weight-medium text-center mx-auto bg-tertiary-lighten"
+    class="speech-bubble pa-2 delevation-2 rounded-lg text-center mx-auto bg-tertiary-lighten"
   >
     {{ props.text }}
   </div>
@@ -40,7 +40,7 @@ const imageSource = computed(() => {
 .speech-bubble {
   position: relative;
   color: #fff;
-  max-width: 200px;
+  max-width: 250px;
 }
 
 .speech-bubble:after {

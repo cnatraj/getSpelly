@@ -1,11 +1,7 @@
 <template>
-  <v-img src="@/assets/images/spelly-results-bg.jpg" height="400" cover>
+  <v-img src="@/assets/images/spelly-results-bg.jpg" height="430" cover>
     <AccountBar />
-    <Spelly
-      image-url="spelly-excited"
-      :width="135"
-      :text="'Well done ' + profileStore.activeProfile.name + '!'"
-    />
+    <Spelly image-url="spelly-excited" :width="135" :text="feedback" />
     <AchievementsCarousel :carousel-cards="achievements" />
   </v-img>
   <TestResultCards :test-result="test" />
@@ -28,6 +24,7 @@ import { usePointsStore } from "@/stores/points";
 import AchievementsCarousel from "@/components/results/AchievementsCarousel.vue";
 import { useSettingsStore } from "@/stores/settings";
 import { useConfetti } from "../composables/useConfetti";
+import { getTestResultFeedback } from "@/components/common/testResultFeedback";
 
 const testError = ref(false);
 const route = useRoute();
@@ -35,6 +32,7 @@ const router = useRouter();
 const completedWords = ref([]);
 const test = ref(null);
 const achievements = ref([]);
+const feedback = ref("");
 const profileStore = useProfileStore();
 const pointsStore = usePointsStore();
 const settingsStore = useSettingsStore();
@@ -55,6 +53,12 @@ onMounted(async () => {
 
   await loadAchievementCards();
 
+  feedback.value = getTestResultFeedback(
+    test.value.correct_spellings,
+    test.value.total_words,
+    profileStore.activeProfile.name
+  );
+
   confetti.fire();
 });
 
@@ -71,6 +75,7 @@ const loadTest = async () => {
       };
     }
     test.value = data;
+    console.log("test", test.value);
   } catch (error) {
     console.log("Error getting test details: ", error);
   }
