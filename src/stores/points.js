@@ -11,6 +11,7 @@ export const usePointsStore = defineStore("points", () => {
   const points = ref(0);
   const totalGamesPlayed = ref(0);
   const perfectGames = ref(0);
+  const fastestTime = ref(null);
 
   const fetchPoints = async (profileId) => {
     console.log("---fetchPoints---");
@@ -24,14 +25,13 @@ export const usePointsStore = defineStore("points", () => {
         points.value = data.total_points;
         totalGamesPlayed.value = data.total_games_played;
         perfectGames.value = data.perfect_games;
+        fastestTime.value = data.fastest_time_ms;
       } else {
         await initializePoints(profileId);
       }
     } catch (error) {
       console.log("Error fetching points:", error);
-      points.value = 0;
-      totalGamesPlayed.value = 0;
-      perfectGames.value = 0;
+      resetPoints();
     }
   };
 
@@ -45,15 +45,18 @@ export const usePointsStore = defineStore("points", () => {
       points.value = data.total_points;
       totalGamesPlayed.value = data.total_games_played;
       perfectGames.value = data.perfect_games;
+      fastestTime.value = data.fastest_time_ms;
     } catch (error) {
       console.log("Error initializing points: ", error);
+      resetPoints();
     }
   };
 
   const updateGameStats = async (
     profileId,
     newPoints,
-    isPerfectGame = false
+    isPerfectGame = false,
+    completionTimeMs = null
   ) => {
     console.log("---PointsStore.updateGameStats---");
     if (!profileId) {
@@ -68,6 +71,13 @@ export const usePointsStore = defineStore("points", () => {
       };
       if (isPerfectGame) {
         updates.perfect_games = perfectGames.value + 1;
+      }
+      // Update fastest time if this completion is faster
+      if (
+        completionTimeMs &&
+        (!fastestTime.value || completionTimeMs < fastestTime.value)
+      ) {
+        updates.fastest_time_ms = completionTimeMs;
       }
 
       const { data, error } = updateStatsForProfile(profileId, updates);
@@ -87,6 +97,7 @@ export const usePointsStore = defineStore("points", () => {
     points.value = 0;
     totalGamesPlayed.value = 0;
     perfectGames.value = 0;
+    fastestTime.value = null;
   };
 
   return {
