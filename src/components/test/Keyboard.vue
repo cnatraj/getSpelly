@@ -35,14 +35,12 @@ onMounted(() => {
 });
 
 const onChange = (input) => {
-  console.log("onchange", input);
   emits("onChange", input);
 };
 
 watch(
   () => props.keyboardInput,
   (newVal) => {
-    console.log("newVal", newVal);
     keyboard.value.setInput(newVal);
   }
 );

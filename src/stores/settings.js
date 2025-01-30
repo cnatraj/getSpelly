@@ -13,6 +13,13 @@ export const useSettingsStore = defineStore("settings", () => {
     timeBonus: "mdi-clock-outline",
   };
 
+  const emojis = {
+    points: "🏆",
+    accuracy: "🎯",
+    time: "⏲️",
+    fastestTime: "⚡",
+  };
+
   const resetSettings = () => {
     wordsPerQuestion.value = 1;
     pointsPerWord.value = 10;
@@ -27,5 +34,6 @@ export const useSettingsStore = defineStore("settings", () => {
     timeBonusThreshold,
     timeBonusPoints,
     resetSettings,
+    emojis,
   };
 });

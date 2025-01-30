@@ -1,6 +1,14 @@
 <template>
+  <v-img src="@/assets/images/spelly-results-bg.jpg" height="400" cover>
+    <AccountBar />
+    <Spelly
+      image-url="spelly-excited"
+      :width="135"
+      :text="'Well done ' + profileStore.activeProfile.name + '!'"
+    />
+    <AchievementsCarousel :carousel-cards="achievements" />
+  </v-img>
   <TestResultCards :test-result="test" />
-
   <div class="mx-2 my-4">
     <v-btn @click="startTest">NEXT TEST!</v-btn>
   </div>
@@ -14,12 +22,21 @@ import { onMounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import TestResultCards from "@/components/results/TestResultCards.vue";
 import WordList from "@/components/results/WordList.vue";
+import { convertMSToMMSS } from "@/components/helpers/utils";
+import { useProfileStore } from "@/stores/profile";
+import { usePointsStore } from "@/stores/points";
+import AchievementsCarousel from "@/components/results/AchievementsCarousel.vue";
+import { useSettingsStore } from "@/stores/settings";
 
 const testError = ref(false);
 const route = useRoute();
 const router = useRouter();
 const completedWords = ref([]);
 const test = ref(null);
+const achievements = ref([]);
+const profileStore = useProfileStore();
+const pointsStore = usePointsStore();
+const settingsStore = useSettingsStore();
 
 const startTest = () => {
   router.push("/test");
@@ -33,15 +50,9 @@ onMounted(async () => {
 
   await loadTest();
   await loadTestWords();
-  calculatePoints();
-});
 
-const calculatePoints = () => {
-  let pointsForTest = 0;
-  completedWords.value.forEach((completedWord) => {
-    pointsForTest += completedWord.total_points;
-  });
-};
+  await loadAchievementCards();
+});
 
 const loadTest = async () => {
   try {
@@ -75,5 +86,50 @@ const loadTestWords = async () => {
     console.log("Error loading test words: ", error);
     testError.value = true;
   }
+};
+
+const loadAchievementCards = () => {
+  // Total Time Card
+  const totalTime_ms = calculateTotalTestTime();
+  let totalTime = {
+    emoji: settingsStore.emojis.time,
+    value: convertMSToMMSS(totalTime_ms),
+    title: "Total time",
+  };
+  achievements.value.push(totalTime);
+
+  // Fastest time Card
+  const fastestTimeInTest = getFastestWordTime(completedWords.value);
+
+  if (
+    !pointsStore.fastestTime ||
+    fastestTimeInTest == pointsStore.fastestTime
+  ) {
+    let fastestTime = {
+      emoji: settingsStore.emojis.fastestTime,
+      value: convertMSToMMSS(fastestTimeInTest),
+      title: "Fastest Time",
+    };
+    achievements.value.push(fastestTime);
+  }
+};
+
+const calculateTotalTestTime = () => {
+  if (!completedWords.value || completedWords.value.length === 0) return 0;
+
+  return completedWords.value.reduce(
+    (total, word) => total + (word.completion_time_ms || 0),
+    0
+  );
+};
+
+const getFastestWordTime = (words) => {
+  if (!words || words.length === 0) return null;
+  return words.reduce((fastest, word) => {
+    if (!word.completion_time_ms) return fastest;
+    return fastest === null || word.completion_time_ms < fastest
+      ? word.completion_time_ms
+      : fastest;
+  }, null);
 };
 </script>

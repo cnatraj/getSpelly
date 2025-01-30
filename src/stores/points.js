@@ -59,6 +59,8 @@ export const usePointsStore = defineStore("points", () => {
     completionTimeMs = null
   ) => {
     console.log("---PointsStore.updateGameStats---");
+    console.log("completionTimeMs", completionTimeMs);
+    console.log("fastestTime.value", fastestTime.value);
     if (!profileId) {
       throw "No Profile Id";
     }
@@ -79,7 +81,7 @@ export const usePointsStore = defineStore("points", () => {
       ) {
         updates.fastest_time_ms = completionTimeMs;
       }
-
+      console.log("updates after", updates);
       const { data, error } = updateStatsForProfile(profileId, updates);
 
       if (error) throw error;
@@ -104,6 +106,7 @@ export const usePointsStore = defineStore("points", () => {
     points,
     totalGamesPlayed,
     perfectGames,
+    fastestTime,
     loading,
     fetchPoints,
     updateGameStats,

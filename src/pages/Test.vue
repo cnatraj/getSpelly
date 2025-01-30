@@ -104,6 +104,7 @@ const pointsStore = usePointsStore();
 const router = useRouter();
 
 const words = ref([]);
+const completedWords = ref([]);
 const userInput = ref("");
 const currentIndex = ref(-1);
 const currentWord = ref("");
@@ -179,7 +180,6 @@ const nextWord = async () => {
   // hide the results bar
   displayResult.value = false;
 
-  console.log("currentIndex", currentIndex.value);
   // CHECK IF GAME OVER
   if (currentIndex.value < words.value.length - 1) {
     currentIndex.value++;
@@ -201,11 +201,14 @@ const nextWord = async () => {
       );
       if (error) throw error;
 
+      // get the fastest time in the test
+
       // update profile with points
       await pointsStore.updateGameStats(
         profileStore.activeProfile.id,
         totalPoints.value,
-        isPerfectTest
+        isPerfectTest,
+        getFastestWordTimeInTest(completedWords.value)
       );
 
       //route to results page
@@ -243,7 +246,10 @@ const checkSpelling = async () => {
     isCorrect: isCurrentWordCorrect.value,
     userInput: userInput.value,
     timeBonus,
+    completion_time_ms: wordCompletionTime.value,
   };
+  completedWords.value.push(currentWordDetails.value);
+
   displayResult.value = true;
   try {
     const { error } = await markWordInTestAsComplete(
@@ -288,9 +294,18 @@ const loadWords = async () => {
     }
 
     words.value = data;
-    console.log("words", words.value);
   } catch (error) {
     console.log("There was an error loading words: ", error);
   }
+};
+
+const getFastestWordTimeInTest = (words) => {
+  if (!words || words.length === 0) return null;
+  return words.reduce((fastest, word) => {
+    if (!word.completion_time_ms) return fastest;
+    return fastest === null || word.completion_time_ms < fastest
+      ? word.completion_time_ms
+      : fastest;
+  }, null);
 };
 </script>
