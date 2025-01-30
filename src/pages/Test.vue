@@ -96,10 +96,18 @@ import Spelly from "@/components/common/Spelly.vue";
 import AccountBar from "@/components/common/AccountBar.vue";
 import ShowResult from "@/components/test/ShowResult.vue";
 import { usePointsStore } from "@/stores/points";
+import { useTimer } from "../composables/useTimer";
 
 const profileStore = useProfileStore();
 const settingsStore = useSettingsStore();
 const pointsStore = usePointsStore();
+const {
+  currentTime,
+  completionTime,
+  formatTime,
+  start: startTimer,
+  stop: stopTimer,
+} = useTimer();
 
 const router = useRouter();
 
@@ -119,10 +127,6 @@ const spellingTestId = ref("");
 const displayResult = ref(false);
 const totalPoints = ref(0);
 const correctSpellings = ref(0);
-const wordStartTime = ref(null);
-const wordCompletionTime = ref(null);
-const currentTime = ref(0);
-const timerInterval = ref(null);
 
 onMounted(async () => {
   await loadWords();
@@ -132,39 +136,6 @@ onMounted(async () => {
 
 const handleWordSpellingChange = (input) => {
   userInput.value = input;
-};
-
-const startTimer = () => {
-  stopTimer();
-
-  wordStartTime.value = Date.now();
-  wordCompletionTime.value = null;
-  currentTime.value = 0;
-  timerInterval.value = setInterval(updateTimer, 1000);
-};
-
-const updateTimer = () => {
-  if (wordStartTime.value) {
-    currentTime.value = Math.floor((Date.now() - wordStartTime.value) / 1000);
-  }
-};
-
-const stopTimer = () => {
-  if (timerInterval.value) {
-    clearInterval(timerInterval.value);
-    timerInterval.value = null;
-  }
-  if (wordStartTime.value && !wordCompletionTime.value) {
-    wordCompletionTime.value = Date.now() - wordStartTime.value;
-  }
-};
-
-const formatTime = (seconds) => {
-  const minutes = Math.floor(seconds / 60);
-  const remainingSeconds = seconds % 60;
-  return `${minutes.toString().padStart(2, "0")}:${remainingSeconds
-    .toString()
-    .padStart(2, "0")}`;
 };
 
 const calculateTimeBonus = () => {
