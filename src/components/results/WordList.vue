@@ -6,15 +6,27 @@
     <v-list-item v-for="word in props.completedWords" :key="word.id">
       <template v-slot:default>
         <v-list-item-title class="text-body-2">
-          {{ word.test_words?.word }}
+          <span :class="word.is_correct ? '' : 'text-error'">{{
+            word.test_words?.word
+          }}</span>
         </v-list-item-title>
         <v-list-item-subtitle>
           <v-chip
+            v-if="!(word.correct_word_points == 0)"
             size="small"
             color="tertiary"
             :prepend-icon="settingsStore.icons.points"
-            >{{ word.total_points }} Points</v-chip
+            >{{ word.correct_word_points }} Points</v-chip
           >
+
+          <v-chip
+            v-if="word.time_bonus_points && word.time_bonus_points != 0"
+            size="small"
+            color="tertiary"
+            :prepend-icon="settingsStore.icons.timeBonus"
+          >
+            {{ word.time_bonus_points }} Points
+          </v-chip>
         </v-list-item-subtitle>
       </template>
       <template v-slot:prepend>
