@@ -75,7 +75,6 @@ const loadTest = async () => {
       };
     }
     test.value = data;
-    console.log("test", test.value);
   } catch (error) {
     console.log("Error getting test details: ", error);
   }

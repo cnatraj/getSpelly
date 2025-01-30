@@ -139,8 +139,8 @@ const handleWordSpellingChange = (input) => {
 };
 
 const calculateTimeBonus = () => {
-  if (!wordCompletionTime.value) return 0;
-  const completionTimeSeconds = wordCompletionTime.value / 1000;
+  if (!completionTime.value) return 0;
+  const completionTimeSeconds = completionTime.value / 1000;
   return completionTimeSeconds <= settingsStore.timeBonusThreshold
     ? settingsStore.timeBonusPoints
     : 0;
@@ -217,7 +217,7 @@ const checkSpelling = async () => {
     isCorrect: isCurrentWordCorrect.value,
     userInput: userInput.value,
     timeBonus,
-    completion_time_ms: wordCompletionTime.value,
+    completion_time_ms: completionTime.value,
   };
   completedWords.value.push(currentWordDetails.value);
 
@@ -227,7 +227,7 @@ const checkSpelling = async () => {
       spellingTestId.value,
       currentWordObj.id,
       isCurrentWordCorrect.value,
-      wordCompletionTime.value,
+      completionTime.value,
       timeBonus
     );
     if (error) throw error;
