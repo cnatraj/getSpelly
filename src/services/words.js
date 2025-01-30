@@ -16,6 +16,7 @@ export const getWordsForProfile = async (profileId) => {
   let query = supabase
     .from(tableName)
     .select("*")
+    .order("id", { ascending: false, foreignTable: "RANDOM()" })
     .limit(settingsStore.wordsPerTest);
 
   // Only add the not-in condition if there are completed words
