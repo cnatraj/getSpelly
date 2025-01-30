@@ -27,6 +27,7 @@ import { useProfileStore } from "@/stores/profile";
 import { usePointsStore } from "@/stores/points";
 import AchievementsCarousel from "@/components/results/AchievementsCarousel.vue";
 import { useSettingsStore } from "@/stores/settings";
+import { useConfetti } from "../composables/useConfetti";
 
 const testError = ref(false);
 const route = useRoute();
@@ -37,6 +38,7 @@ const achievements = ref([]);
 const profileStore = useProfileStore();
 const pointsStore = usePointsStore();
 const settingsStore = useSettingsStore();
+const confetti = useConfetti();
 
 const startTest = () => {
   router.push("/test");
@@ -52,6 +54,8 @@ onMounted(async () => {
   await loadTestWords();
 
   await loadAchievementCards();
+
+  confetti.fire();
 });
 
 const loadTest = async () => {

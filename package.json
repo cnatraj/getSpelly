@@ -12,6 +12,7 @@
   "dependencies": {
     "@mdi/font": "7.4.47",
     "@supabase/supabase-js": "^2.48.0",
+    "canvas-confetti": "^1.9.3",
     "pinia": "^2.3.1",
     "roboto-fontface": "*",
     "simple-keyboard": "^3.8.30",
