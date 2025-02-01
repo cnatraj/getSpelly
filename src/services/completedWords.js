@@ -47,3 +47,13 @@ export const getCompletedWordsForTest = async (testId) => {
 
   return { data, error };
 };
+
+export const getTotalCorrectWords = async (profileId) => {
+  const { data, error } = await supabase
+    .from(tableName)
+    .select("is_correct")
+    .eq("profile_id", profileId)
+    .eq("is_correct", true);
+
+  return { data, error };
+};
