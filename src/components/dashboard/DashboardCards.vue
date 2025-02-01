@@ -62,11 +62,7 @@ const fetchTotalCorrectWords = async () => {
       title: "Words Conquered",
     };
 
-    console.log("before", items);
     items.value.push(item);
-    console.log("after", items);
-
-    console.log("length", data.length);
   } catch (error) {
     console.error("Error fetching total correct words:", error);
   }

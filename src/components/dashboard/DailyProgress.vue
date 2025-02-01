@@ -49,7 +49,6 @@ const fetchWeeklyProgress = async () => {
       sevenDaysAgo
     );
 
-    console.log("dataa", data);
     if (error) throw error;
 
     // Get unique dates when tests were completed
