@@ -2,12 +2,12 @@
   <v-card class="mx-2 mt-n4" color="white" rounded="lg" elevation="1">
     <v-card-item>
       <v-row>
-        <v-col cols="6" v-for="(stat, i) in stats" :key="i">
-          <div class="d-flex">
+        <v-col cols="4" v-for="(stat, i) in stats" :key="i">
+          <div class="d-flex align-center">
             <div>
               <span class="text-h5">{{ stat.emoji }}</span>
             </div>
-            <div class="ml-4">
+            <div class="ml-2">
               <div class="font-weight-bold">{{ stat.value }}</div>
               <div class="text-body-2 opacity-60 mt-n1">{{ stat.title }}</div>
             </div>
