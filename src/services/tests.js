@@ -59,3 +59,18 @@ export const getLastTestCompletionDate = async (profileId) => {
   console.log("data", data);
   return { data, error };
 };
+
+export const getTestsFromPastWeek = async (
+  profileId,
+  todayDate,
+  sevenDaysAgoDate
+) => {
+  const { data, error } = await supabase
+    .from(tableName)
+    .select("completed_at")
+    .eq("profile_id", profileId)
+    .gte("created_at", sevenDaysAgoDate.toISOString())
+    .lte("created_at", todayDate.toISOString());
+
+  return { data, error };
+};

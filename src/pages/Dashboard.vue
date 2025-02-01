@@ -1,20 +1,22 @@
 <template>
-  <v-img
-    src="@/assets/images/spelly-dashboard-bg.jpg"
-    cover
-    height="225"
-    position="center top"
-  >
-    <AccountBar />
-    <Spelly image-url="spelly-hi" :width="135" />
-  </v-img>
+  <div class="bg-white">
+    <v-img
+      src="@/assets/images/spelly-dashboard-bg.jpg"
+      cover
+      height="225"
+      position="center top"
+    >
+      <AccountBar />
+      <Spelly image-url="spelly-hi" :width="135" />
+    </v-img>
 
-  <v-skeleton-loader type="card" v-if="loading"></v-skeleton-loader>
-  <div v-else>
-    <CreateProfile v-if="numProfiles === 0" />
-    <ShowProfile v-else />
+    <v-skeleton-loader type="card" v-if="loading"></v-skeleton-loader>
+    <div v-else>
+      <CreateProfile v-if="numProfiles === 0" />
+      <ShowProfile v-else />
 
-    <AccountList />
+      <AccountList />
+    </div>
   </div>
 </template>
 

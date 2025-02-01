@@ -19,6 +19,8 @@ export const useSettingsStore = defineStore("settings", () => {
     streak: "🔥",
     time: "⏲️",
     fastestTime: "⚡",
+    gamesPlayed: "🚀",
+    perfectGames: "🌟",
   };
 
   const resetSettings = () => {

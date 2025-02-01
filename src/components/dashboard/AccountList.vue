@@ -1,5 +1,5 @@
 <template>
-  <v-list class="mx-2 my-4">
+  <v-list class="mx-2 my-4" bg-color="white" elevation="0">
     <v-list-subheader>ADVENTURE TOOLS</v-list-subheader>
     <v-list-item @click="logout">
       <template v-slot:prepend>
