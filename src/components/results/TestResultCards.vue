@@ -21,12 +21,14 @@
 <script setup>
 import { ref, watch } from "vue";
 import { useSettingsStore } from "@/stores/settings";
+import { usePointsStore } from "@/stores/points";
 
 const props = defineProps({
   testResult: Object,
 });
 
 const settingsStore = useSettingsStore();
+const pointsStore = usePointsStore();
 
 const resultCards = ref([]);
 const stats = ref([]);
@@ -60,8 +62,14 @@ const calculateStats = () => {
     title: "Score",
   };
 
+  // calculate daily streak
+  let streak = {
+    emoji: settingsStore.emojis.streak,
+    value: pointsStore.dailyStreak,
+    title: "Streak",
+  };
   // Push to stats array
-  stats.value.push(accuracy, points);
+  stats.value.push(accuracy, points, streak);
 };
 
 const scoreCard = () => {

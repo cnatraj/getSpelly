@@ -6,11 +6,15 @@ import {
   updateStatsForProfile,
 } from "@/services/profilePoints";
 
+import { getLastTestCompletionDate } from "@/services/tests";
+
 export const usePointsStore = defineStore("points", () => {
   const loading = ref(false);
   const points = ref(0);
   const totalGamesPlayed = ref(0);
   const perfectGames = ref(0);
+  const dailyStreak = ref(0);
+  const highestDailyStreak = ref(0);
   const fastestTime = ref(null);
 
   const fetchPoints = async (profileId) => {
@@ -20,12 +24,13 @@ export const usePointsStore = defineStore("points", () => {
       const { data, error } = await getPointsForProfile(profileId);
 
       if (error && error.code !== "PGRST116") throw error;
-
       if (data) {
         points.value = data.total_points;
         totalGamesPlayed.value = data.total_games_played;
         perfectGames.value = data.perfect_games;
         fastestTime.value = data.fastest_time_ms;
+        dailyStreak.value = data.daily_streak;
+        highestDailyStreak.value = data.highest_daily_streak;
       } else {
         await initializePoints(profileId);
       }
@@ -46,6 +51,8 @@ export const usePointsStore = defineStore("points", () => {
       totalGamesPlayed.value = data.total_games_played;
       perfectGames.value = data.perfect_games;
       fastestTime.value = data.fastest_time_ms;
+      dailyStreak.value = data.daily_streak;
+      highestDailyStreak.value = data.highest_daily_streak;
     } catch (error) {
       console.log("Error initializing points: ", error);
       resetPoints();
@@ -59,17 +66,27 @@ export const usePointsStore = defineStore("points", () => {
     completionTimeMs = null
   ) => {
     console.log("---PointsStore.updateGameStats---");
-    console.log("completionTimeMs", completionTimeMs);
-    console.log("fastestTime.value", fastestTime.value);
+
     if (!profileId) {
       throw "No Profile Id";
     }
 
     try {
       loading.value = true;
+
+      let newStreak = await getNewStreak(profileId);
+
+      // Update highest streak if current streak is higher
+      let newHighestStreak = highestDailyStreak.value;
+      if (newStreak > newHighestStreak) {
+        newHighestStreak = newStreak;
+      }
+
       let updates = {
         total_points: points.value + newPoints,
         total_games_played: totalGamesPlayed.value + 1,
+        daily_streak: newStreak,
+        highest_daily_streak: newHighestStreak,
       };
       if (isPerfectGame) {
         updates.perfect_games = perfectGames.value + 1;
@@ -82,7 +99,7 @@ export const usePointsStore = defineStore("points", () => {
         updates.fastest_time_ms = completionTimeMs;
       }
       console.log("updates after", updates);
-      const { data, error } = updateStatsForProfile(profileId, updates);
+      const { data, error } = await updateStatsForProfile(profileId, updates);
 
       if (error) throw error;
 
@@ -102,11 +119,60 @@ export const usePointsStore = defineStore("points", () => {
     fastestTime.value = null;
   };
 
+  const getNewStreak = async (profileId) => {
+    // Get last test completion date
+    const { data: lastTest, error: lastTestError } =
+      await getLastTestCompletionDate(profileId);
+
+    // return { data, error };
+    // await getLastTestCompletionDate(profileId);
+
+    if (lastTestError && lastTestError.code !== "PGRST116") throw lastTestError;
+
+    // Calculate streak using store values
+    let newStreak = dailyStreak.value;
+    console.log("getNewstreak-1", newStreak);
+
+    let newHighestStreak = highestDailyStreak.value;
+
+    const today = new Date().toISOString().split("T")[0];
+
+    if (!lastTest) {
+      // First test ever
+      newStreak = 1;
+    } else {
+      const lastTestDate = new Date(lastTest.completed_at)
+        .toISOString()
+        .split("T")[0];
+
+      if (lastTestDate === today) {
+        // Already completed a test today, maintain streak
+        newStreak = dailyStreak.value;
+      } else {
+        const yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
+        const yesterdayString = yesterday.toISOString().split("T")[0];
+
+        if (lastTestDate === yesterdayString) {
+          // Completed test yesterday, increment streak
+          newStreak = dailyStreak.value + 1;
+        } else {
+          // Streak broken
+          newStreak = 1;
+        }
+      }
+    }
+
+    return newStreak;
+  };
+
   return {
     points,
     totalGamesPlayed,
     perfectGames,
     fastestTime,
+    dailyStreak,
+    highestDailyStreak,
     loading,
     fetchPoints,
     updateGameStats,

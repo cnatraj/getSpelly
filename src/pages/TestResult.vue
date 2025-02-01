@@ -64,7 +64,10 @@ onMounted(async () => {
 
 const loadTest = async () => {
   try {
-    const { data, error } = await getOneTestDetails(route.params.testId);
+    const { data, error } = await getOneTestDetails(
+      route.params.testId,
+      profileStore.activeProfile.id
+    );
     if (error) throw error;
 
     if (!data) {

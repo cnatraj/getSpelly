@@ -16,6 +16,7 @@ export const useSettingsStore = defineStore("settings", () => {
   const emojis = {
     points: "🏆",
     accuracy: "🎯",
+    streak: "🔥",
     time: "⏲️",
     fastestTime: "⚡",
   };

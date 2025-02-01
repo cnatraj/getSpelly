@@ -1,8 +1,6 @@
-import { useProfileStore } from "@/stores/profile";
 import { supabase } from "./client";
 
 const tableName = "spelling_tests";
-const profileStore = useProfileStore();
 
 export const createTestForProfile = async (profileId, totalWords) => {
   const { data, error } = await supabase
@@ -39,13 +37,25 @@ export const saveCompletedTestResult = async (
   return { error };
 };
 
-export const getOneTestDetails = async (testId) => {
+export const getOneTestDetails = async (testId, profileId) => {
   const { data, error } = await supabase
     .from(tableName)
     .select("*")
     .eq("id", testId)
-    .eq("profile_id", profileStore.activeProfile.id)
+    .eq("profile_id", profileId)
     .single();
 
+  return { data, error };
+};
+
+export const getLastTestCompletionDate = async (profileId) => {
+  const { data, error } = await supabase
+    .from(tableName)
+    .select("completed_at")
+    .eq("profile_id", profileId)
+    .order("completed_at", { ascending: false })
+    .limit(1)
+    .single();
+  console.log("data", data);
   return { data, error };
 };
