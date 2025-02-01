@@ -98,7 +98,6 @@ export const usePointsStore = defineStore("points", () => {
       ) {
         updates.fastest_time_ms = completionTimeMs;
       }
-      console.log("updates after", updates);
       const { data, error } = await updateStatsForProfile(profileId, updates);
 
       if (error) throw error;
@@ -131,7 +130,6 @@ export const usePointsStore = defineStore("points", () => {
 
     // Calculate streak using store values
     let newStreak = dailyStreak.value;
-    console.log("getNewstreak-1", newStreak);
 
     let newHighestStreak = highestDailyStreak.value;
 
