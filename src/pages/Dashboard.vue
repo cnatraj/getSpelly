@@ -23,7 +23,6 @@
 import AccountBar from "@/components/common/AccountBar.vue";
 import Spelly from "@/components/common/Spelly.vue";
 import AccountList from "@/components/dashboard/AccountList.vue";
-import CreateProfile from "@/components/dashboard/CreateProfile.vue";
 import ShowProfile from "@/components/dashboard/ShowProfile.vue";
 import { useProfileStore } from "@/stores/profile";
 import { onMounted, ref } from "vue";
