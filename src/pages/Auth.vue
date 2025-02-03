@@ -42,6 +42,9 @@ const signInWithGoogle = async () => {
       provider: "google",
       options: {
         redirectTo: import.meta.env.VITE_APP_URL,
+        queryParams: {
+          prompt: "select_account", // This forces the account selection dialog
+        },
       },
     });
 

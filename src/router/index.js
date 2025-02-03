@@ -26,6 +26,12 @@ const routes = [
     meta: { requiresAuth: true },
   },
   {
+    path: "/createProfile",
+    name: "CreateProfile",
+    component: () => import("../pages/CreateProfile.vue"),
+    meta: { requiresAuth: true },
+  },
+  {
     path: "/test",
     name: "Test",
     component: () => import("../pages/Test.vue"),
@@ -63,33 +69,12 @@ router.isReady().then(() => {
 });
 
 router.beforeEach(async (to, from, next) => {
+  const requiresAuth = to.matched.some((record) => record.meta.requiresAuth);
+
+  // Check for active session
   const {
     data: { session },
   } = await supabase.auth.getSession();
-
-  const requiresAuth = to.matched.some((record) => record.meta.requiresAuth);
-
-  if (session) {
-    const profileStore = useProfileStore();
-    profileStore.setUser(session.user);
-
-    // If no profiles are loaded, fetch them
-    if (profileStore.user && profileStore.profiles.length === 0) {
-      await profileStore.fetchProfiles();
-    }
-
-    // If no active profile is set but profiles exist, set the first one
-    if (!profileStore.activeProfile && profileStore.profiles.length > 0) {
-      await profileStore.setActiveProfile(profileStore.profiles[0]);
-    }
-
-    // If we still don't have an active profile, logout and redirect to home
-    if (!profileStore.activeProfile) {
-      // TODO: add logout
-      next("/");
-      return;
-    }
-  }
 
   if (requiresAuth && !session) {
     next("/auth");

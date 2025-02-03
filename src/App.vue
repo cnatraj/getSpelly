@@ -22,9 +22,11 @@ const router = useRouter();
 onMounted(() => {
   console.log("---APP ONMOUNTED---");
 
-  supabase.auth.onAuthStateChange((event, session) => {
+  // Listen for auth changes
+  const {
+    data: { subscription },
+  } = supabase.auth.onAuthStateChange((event, session) => {
     profileStore.setUser(session?.user || null);
-
     if (event === "SIGNED_OUT") {
       profileStore.clearUser();
       router.push("/auth");
