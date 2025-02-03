@@ -2,7 +2,7 @@
   <!-- Badges Section -->
   <v-card class="mb-4" color="secondary-darken" rounded="lg">
     <v-card-text>
-      <div class="text-h6 mb-2">Badges</div>
+      <div class="text-h6 mb-2">Daily Streaks</div>
       <v-carousel
         :model-value="initialSlide"
         hide-delimiter-background
