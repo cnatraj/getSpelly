@@ -33,6 +33,7 @@ const completedWords = ref([]);
 const test = ref(null);
 const achievements = ref([]);
 const feedback = ref("");
+
 const profileStore = useProfileStore();
 const pointsStore = usePointsStore();
 const settingsStore = useSettingsStore();
@@ -48,6 +49,7 @@ onMounted(async () => {
     testError.value = true;
   }
 
+  await profileStore.fetchProfiles();
   await loadTest();
   await loadTestWords();
 

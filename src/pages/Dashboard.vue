@@ -12,8 +12,7 @@
 
     <v-skeleton-loader type="card" v-if="loading"></v-skeleton-loader>
     <div v-else>
-      <CreateProfile v-if="numProfiles === 0" />
-      <ShowProfile v-else />
+      <ShowProfile />
 
       <AccountList />
     </div>
@@ -28,8 +27,10 @@ import CreateProfile from "@/components/dashboard/CreateProfile.vue";
 import ShowProfile from "@/components/dashboard/ShowProfile.vue";
 import { useProfileStore } from "@/stores/profile";
 import { onMounted, ref } from "vue";
+import { useRouter } from "vue-router";
 
 const profileStore = useProfileStore();
+const router = useRouter();
 const numProfiles = ref(0);
 const loading = ref(true);
 
@@ -38,6 +39,10 @@ onMounted(async () => {
   await profileStore.fetchProfiles();
   numProfiles.value = profileStore.profiles.length;
 
+  // redirect to the create Profile page if no Profiles exist
+  if (numProfiles.value === 0) {
+    router.push("/CreateProfile");
+  }
   loading.value = false;
 });
 </script>
