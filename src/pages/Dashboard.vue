@@ -36,12 +36,12 @@ const loading = ref(true);
 onMounted(async () => {
   loading.value = true;
   await profileStore.fetchProfiles();
-  numProfiles.value = profileStore.profiles.length;
+  // numProfiles.value = profileStore.profiles.length;
 
-  // redirect to the create Profile page if no Profiles exist
-  if (numProfiles.value === 0) {
-    router.push("/CreateProfile");
-  }
+  // // redirect to the create Profile page if no Profiles exist
+  // if (numProfiles.value === 0) {
+  //   router.push("/CreateProfile");
+  // }
   loading.value = false;
 });
 </script>

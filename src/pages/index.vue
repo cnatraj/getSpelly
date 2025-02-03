@@ -29,17 +29,25 @@
 
 <script setup>
 import { supabase } from "@/services/client";
+import { useProfileStore } from "@/stores/profile";
 import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 
 const user = ref(null);
 const router = useRouter();
+const profileStore = useProfileStore();
 
 onMounted(() => {
-  supabase.auth.onAuthStateChange((event, session) => {
+  supabase.auth.onAuthStateChange(async (event, session) => {
     if (session?.user) {
-      //user is logged in, send them to dashboard page
-      router.push("/dashboard");
+      await profileStore.fetchProfiles();
+      const numProfiles = profileStore.profiles.length;
+      if (numProfiles === 0) {
+        router.push("/CreateProfile");
+      } else {
+        //user is logged in, send them to dashboard page
+        router.push("/dashboard");
+      }
     }
   });
 });
