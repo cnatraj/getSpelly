@@ -129,6 +129,8 @@ const totalPoints = ref(0);
 const correctSpellings = ref(0);
 
 onMounted(async () => {
+  await profileStore.fetchProfiles();
+
   await loadWords();
   await createTest();
   nextWord();
