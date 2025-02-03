@@ -77,6 +77,7 @@ router.beforeEach(async (to, from, next) => {
   } = await supabase.auth.getSession();
 
   if (requiresAuth && !session) {
+    supabase.auth.signOut();
     next("/auth");
   } else if (to.path === "/auth" && session) {
     next("/dashboard");
