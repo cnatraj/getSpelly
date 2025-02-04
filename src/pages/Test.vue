@@ -77,6 +77,8 @@
     <ShowResult
       v-if="displayResult"
       :word-details="currentWordDetails"
+      :current-index="currentIndex"
+      :total-words="words.length"
       @next-word="nextWord"
     />
   </v-expand-transition>

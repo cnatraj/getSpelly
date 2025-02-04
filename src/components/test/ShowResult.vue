@@ -1,8 +1,6 @@
 <template>
   <v-card color="white" class="v-card--reveal rounded-xl" elevation="4">
-    <v-card-title class="text-subtitle-1 font-weight-bold">
-      Result
-    </v-card-title>
+    <v-card-title class="text-h6 text-tertiary"> Word Check </v-card-title>
     <v-card-text>
       <v-list bg-color="white">
         <v-list-subheader class="text-h6">
@@ -38,7 +36,10 @@
     </v-card-text>
 
     <v-card-text>
-      <v-btn @click="$emit('nextWord')">Next Word</v-btn>
+      <v-btn @click="$emit('nextWord')" color="secondary">
+        <span v-if="props.currentIndex < props.totalWords - 1">Next Word</span>
+        <span v-else>See your Final Score!</span>
+      </v-btn>
     </v-card-text>
   </v-card>
 </template>
@@ -53,6 +54,8 @@ const props = defineProps({
   word: String,
   isCorrect: Boolean,
   wordDetails: Object,
+  currentIndex: Number,
+  totalWords: Number,
 });
 const resultText = ref("");
 
@@ -70,7 +73,7 @@ onMounted(() => {
 .v-card--reveal {
   bottom: 0;
   position: absolute;
-  width: 400px;
+  width: 390px;
   height: 50%;
   z-index: 101;
 }
