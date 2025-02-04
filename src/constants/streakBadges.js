@@ -7,7 +7,7 @@ export const streakBadges = [
   {
     threshold: 3,
     icon: "mdi-fire",
-    name: "Kindling Flame",
+    name: "Rising Flame",
   },
   {
     threshold: 5,

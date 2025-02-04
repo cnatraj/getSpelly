@@ -1,8 +1,8 @@
 <template>
   <!-- Badges Section -->
-  <v-card class="mb-4" color="secondary-darken" rounded="lg">
+  <v-card class="mb-4" color="tertiary-lighten" rounded="lg">
     <v-card-text>
-      <div class="text-h6 mb-2">Daily Streaks</div>
+      <div class="text-h6 mb-2">Keep your steak alive</div>
       <v-carousel
         :model-value="initialSlide"
         hide-delimiter-background
@@ -15,12 +15,12 @@
               v-for="badge in slide"
               :key="badge.id"
               cols="auto"
-              class="text-center"
+              class="text-center highlighted"
             >
               <v-icon
                 :icon="badge.icon"
                 size="x-large"
-                :color="badge.isUnlocked ? 'warning' : 'grey'"
+                :color="badge.isUnlocked ? 'primary' : 'grey'"
               ></v-icon>
               <div class="text-caption mt-1">{{ badge.name }}</div>
               <div class="text-caption text-grey">
@@ -65,3 +65,5 @@ const badgeSlides = computed(() => {
   return slides;
 });
 </script>
+
+<style></style>

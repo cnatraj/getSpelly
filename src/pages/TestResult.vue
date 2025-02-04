@@ -6,6 +6,7 @@
   </v-img>
   <TestResultCards :test-result="test" />
   <TitleProgess />
+  <DailyProgress class="mx-2" />
   <div class="mx-2 my-4">
     <v-btn @click="startTest">NEXT TEST!</v-btn>
   </div>
