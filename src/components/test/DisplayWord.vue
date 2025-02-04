@@ -5,6 +5,9 @@
     rounded="lg"
     elevation="1"
   >
+    <div class="text-caption font-weight-medium text-tertiary">
+      Word {{ props.currentIndex + 1 }} of {{ props.totalWords }}
+    </div>
     <div
       class="text-h3 text-center wordSpelling bubblegumSans my-2 bg-sheet"
       data-placeholder="start typing..."
@@ -17,6 +20,8 @@
 <script setup>
 const props = defineProps({
   textToDisplay: String,
+  currentIndex: Number,
+  totalWords: Number,
 });
 </script>
 

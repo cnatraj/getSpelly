@@ -39,7 +39,12 @@
         >
       </v-chip>
     </v-img>
-    <DisplayWord :textToDisplay="userInput"> </DisplayWord>
+    <DisplayWord
+      :textToDisplay="userInput"
+      :current-index="currentIndex"
+      :total-words="words.length"
+    >
+    </DisplayWord>
     <div></div>
     <div class="mx-2 my-4">
       <Keyboard
@@ -97,7 +102,6 @@ import AccountBar from "@/components/common/AccountBar.vue";
 import ShowResult from "@/components/test/ShowResult.vue";
 import { usePointsStore } from "@/stores/points";
 import { useTimer } from "../composables/useTimer";
-import { getCurrentTitle, getNextTitle } from "@/constants/titles";
 
 const profileStore = useProfileStore();
 const settingsStore = useSettingsStore();
@@ -186,18 +190,6 @@ const nextWord = async () => {
         isPerfectTest,
         getFastestWordTimeInTest(completedWords.value)
       );
-
-      // if title has changed, then update the table
-
-      // const newTitle = getCurrentTitle(pointsStore.totalGamesPlayed);
-      // console.log("newTitle", newTitle);
-      // console.log(
-      //   "profileStore.activeProfile.title",
-      //   profileStore.activeProfile.title
-      // );
-      // if (profileStore.activeProfile.title !== newTitle) {
-      //   await profileStore.updateProfileTitle(newTitle);
-      // }
 
       //route to results page
       router.push({

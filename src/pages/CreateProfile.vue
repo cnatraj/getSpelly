@@ -14,7 +14,7 @@
     color="white"
     rounded="lg"
     elevation="0"
-    height="400"
+    min-height="400"
   >
     <v-carousel
       :show-arrows="false"
@@ -82,7 +82,7 @@
         <v-btn class="my-4" @click="showRulesCard">Claim your title!</v-btn>
       </v-carousel-item>
 
-      <v-carousel-item>
+      <v-carousel-item class="mx-2">
         <p class="text-h6 text-tertiary mt-4">How to play with Spelly</p>
         <div class="text-body-2">
           Hey there, future
