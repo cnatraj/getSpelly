@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-main>
-      <v-sheet max-width="400" class="mx-auto rounded-xl mt-2">
+      <v-sheet max-width="400" class="mx-auto rounded-xl">
         <v-card rounded="xl" color min-height="600">
           <router-view />
         </v-card>
