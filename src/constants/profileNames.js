@@ -1,7 +1,7 @@
 export function generateRandomName() {
   const randomPrefix = prefixes[Math.floor(Math.random() * prefixes.length)];
   const randomNoun = nouns[Math.floor(Math.random() * nouns.length)];
-  return `${randomPrefix}${randomNoun}`;
+  return `${randomPrefix} ${randomNoun}`;
 }
 
 const prefixes = [
@@ -17,7 +17,6 @@ const prefixes = [
 
   // 🚀 Speed & Adventure-Themed
   "Zooming",
-  "Rocket",
   "Dashing",
   "Bouncing",
   "Snappy",

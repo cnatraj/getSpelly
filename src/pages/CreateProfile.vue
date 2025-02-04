@@ -32,17 +32,22 @@
             rounded="lg"
             placeholder="Your name"
             autofocus
+            hide-details
           >
-            <template v-slot:append>
-              <span class="text-h4" @click="randomName">🦉</span>
-            </template>
           </v-text-field>
-        </p>
-        <p class="text-darkText font-weight-medium">
-          You can use your real name or a silly made-up name—it’s up to you! 🎭
+
+          <v-chip
+            size="small"
+            class="my-1 mr-1"
+            variant="outlined"
+            color="secondary"
+            v-for="(name, i) in randomNames"
+            @click="assignName(name)"
+            >{{ name }}</v-chip
+          >
         </p>
         <p class="text-darkText font-weight-medium mt-2">
-          Want Spelly to pick one for you? Just tap the 🦉
+          You can use your real name or a silly made-up name—it’s up to you! 🎭
         </p>
 
         <v-btn class="mt-4" :disabled="name.length == 0" @click="nextStep"
@@ -85,16 +90,18 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import { useProfileStore } from "@/stores/profile";
 import { useRouter } from "vue-router";
 import { generateRandomName } from "@/constants/profileNames";
+import Logger from "@/utils/logger";
 
 const profileStore = useProfileStore();
 const router = useRouter();
 const name = ref("");
 const onboardingStep = ref(0);
 const spellyText = ref("Hi! My name is Spelly. What is your name?");
+const randomNames = ref([]);
 
 const nextStep = () => {
   onboardingStep.value++;
@@ -106,7 +113,17 @@ const createProfile = async () => {
   router.push("/test");
 };
 
-const randomName = () => {
-  name.value = generateRandomName();
+const assignName = (randomName) => {
+  name.value = randomName;
 };
+const createRandomNames = () => {
+  for (let i = 0; i < 5; i++) {
+    randomNames.value.push(generateRandomName());
+  }
+};
+
+onMounted(() => {
+  Logger.debug("OnMounted");
+  createRandomNames();
+});
 </script>
