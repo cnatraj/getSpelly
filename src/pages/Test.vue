@@ -97,6 +97,7 @@ import AccountBar from "@/components/common/AccountBar.vue";
 import ShowResult from "@/components/test/ShowResult.vue";
 import { usePointsStore } from "@/stores/points";
 import { useTimer } from "../composables/useTimer";
+import { getCurrentTitle, getNextTitle } from "@/constants/titles";
 
 const profileStore = useProfileStore();
 const settingsStore = useSettingsStore();
@@ -149,6 +150,7 @@ const calculateTimeBonus = () => {
 };
 
 const nextWord = async () => {
+  console.log("---nextWord---");
   userInput.value = "";
   // hide the results bar
   displayResult.value = false;
@@ -163,6 +165,7 @@ const nextWord = async () => {
     // start the timer when the word is spoken
     startTimer();
   } else {
+    console.log("--- test complete ---");
     // save results
     const isPerfectTest = correctSpellings.value == settingsStore.wordsPerTest;
     try {
@@ -183,6 +186,18 @@ const nextWord = async () => {
         isPerfectTest,
         getFastestWordTimeInTest(completedWords.value)
       );
+
+      // if title has changed, then update the table
+
+      // const newTitle = getCurrentTitle(pointsStore.totalGamesPlayed);
+      // console.log("newTitle", newTitle);
+      // console.log(
+      //   "profileStore.activeProfile.title",
+      //   profileStore.activeProfile.title
+      // );
+      // if (profileStore.activeProfile.title !== newTitle) {
+      //   await profileStore.updateProfileTitle(newTitle);
+      // }
 
       //route to results page
       router.push({

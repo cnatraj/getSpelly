@@ -1,10 +1,11 @@
 <template>
-  <v-img src="@/assets/images/spelly-results-bg.jpg" height="430" cover>
+  <v-img src="@/assets/images/spelly-results-bg.jpg" height="300" cover>
     <AccountBar />
     <Spelly image-url="spelly-excited" :width="135" :text="feedback" />
-    <AchievementsCarousel :carousel-cards="achievements" />
+    <!-- <AchievementsCarousel :carousel-cards="achievements" /> -->
   </v-img>
   <TestResultCards :test-result="test" />
+  <TitleProgess />
   <div class="mx-2 my-4">
     <v-btn @click="startTest">NEXT TEST!</v-btn>
   </div>
@@ -25,6 +26,7 @@ import AchievementsCarousel from "@/components/results/AchievementsCarousel.vue"
 import { useSettingsStore } from "@/stores/settings";
 import { useConfetti } from "../composables/useConfetti";
 import { getTestResultFeedback } from "@/components/common/testResultFeedback";
+import TitleProgess from "@/components/dashboard/TitleProgess.vue";
 
 const testError = ref(false);
 const route = useRoute();

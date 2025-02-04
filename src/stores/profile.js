@@ -5,6 +5,7 @@ import {
 import {
   createProfileForUserId,
   getProfilesByUserId,
+  updateProfileForProfileId,
 } from "@/services/profiles";
 import { defineStore } from "pinia";
 import { ref } from "vue";
@@ -71,6 +72,34 @@ export const useProfileStore = defineStore("profile", () => {
       loading.value = false;
     }
   };
+  const updateProfileTitle = async (newTitle) => {
+    console.log("updateProfileTitle-newTitle", newTitle);
+    try {
+      const profileData = { title: newTitle };
+      const { data, error } = await updateProfileForProfileId(
+        activeProfile.value.id,
+        profileData
+      );
+
+      if (error) throw error;
+
+      updateLocalProfileState(activeProfile.value.id, data);
+    } catch (error) {
+      console.error("Error updating profile title:", error);
+    }
+  };
+
+  const updateLocalProfileState = (profileId, newProfileData) => {
+    const index = profiles.value.findIndex((p) => p.id === profileId);
+
+    if (index !== -1) {
+      profiles.value[index] = newProfileData;
+
+      if (activeProfile.value?.id === profileId) {
+        activeProfile.value = newProfileData;
+      }
+    }
+  };
 
   const clearUser = () => {
     console.log("---clearUser---");
@@ -91,6 +120,7 @@ export const useProfileStore = defineStore("profile", () => {
     setProfiles,
     fetchProfiles,
     createProfile,
+    updateProfileTitle,
     clearUser,
   };
 });
