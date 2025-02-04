@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import { ref } from "vue";
 
 export const useSettingsStore = defineStore("settings", () => {
-  const wordsPerTest = ref(3);
+  const wordsPerTest = ref(10);
   const pointsPerCorrectWord = ref(10);
   const timeBonusThreshold = ref(10); // Time in seconds to get bonus
   const timeBonusPoints = ref(10); // Points awarded for quick completion
