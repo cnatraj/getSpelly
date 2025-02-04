@@ -1,6 +1,6 @@
 <template>
-  <v-card class="mb-4" rounded="lg" color="white" elevation="1">
-    <v-card-title>Weekly Progress</v-card-title>
+  <v-card class="mb-4" rounded="lg" color="tertiary-lighten" elevation="0">
+    <v-card-title class="tedxt-tertiary-darken">Daily Streak</v-card-title>
     <v-card-text>
       <v-row justify="space-around" align="center">
         <v-col
@@ -9,11 +9,19 @@
           cols="auto"
           class="text-center"
         >
-          <div class="text-caption mb-1">{{ day.day }}</div>
+          <div class="text-caption mb-1 text-tertiary">{{ day.day }}</div>
           <v-icon
-            :color="day.completed ? 'success' : 'grey'"
+            :color="day.completed ? 'primary' : 'grey'"
             :icon="day.completed ? 'mdi-check-circle' : 'mdi-circle-outline'"
           ></v-icon>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col><v-divider></v-divider></v-col>
+      </v-row>
+      <v-row>
+        <v-col>
+          <BadgesCarousel />
         </v-col>
       </v-row>
     </v-card-text>
@@ -24,6 +32,7 @@
 import { getTestsFromPastWeek } from "@/services/tests";
 import { useProfileStore } from "@/stores/profile";
 import { onMounted, ref } from "vue";
+import BadgesCarousel from "./BadgesCarousel.vue";
 
 const profileStore = useProfileStore();
 const weeklyProgress = ref([]); // Stores the weekly progress data

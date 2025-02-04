@@ -1,37 +1,32 @@
 <template>
   <!-- Badges Section -->
-  <v-card class="mb-4" color="tertiary-lighten" rounded="lg">
-    <v-card-text>
-      <div class="text-h6 mb-2">Keep your steak alive</div>
-      <v-carousel
-        :model-value="initialSlide"
-        hide-delimiter-background
-        :show-arrows="false"
-        height="140"
-      >
-        <v-carousel-item v-for="(slide, index) in badgeSlides" :key="index">
-          <v-row justify="center" align="center" class="fill-height">
-            <v-col
-              v-for="badge in slide"
-              :key="badge.id"
-              cols="auto"
-              class="text-center highlighted"
-            >
-              <v-icon
-                :icon="badge.icon"
-                size="x-large"
-                :color="badge.isUnlocked ? 'primary' : 'grey'"
-              ></v-icon>
-              <div class="text-caption mt-1">{{ badge.name }}</div>
-              <div class="text-caption text-grey">
-                {{ badge.threshold }} days
-              </div>
-            </v-col>
-          </v-row>
-        </v-carousel-item>
-      </v-carousel>
-    </v-card-text>
-  </v-card>
+
+  <v-carousel
+    :model-value="initialSlide"
+    hide-delimiter-background
+    :show-arrows="false"
+    height="130"
+    color="tertiary-darken"
+  >
+    <v-carousel-item v-for="(slide, index) in badgeSlides" :key="index">
+      <v-row justify="center" align="bottom" class="fill-height">
+        <v-col
+          v-for="badge in slide"
+          :key="badge.id"
+          cols="auto"
+          class="text-center highlighted"
+        >
+          <v-icon
+            :icon="badge.icon"
+            size="x-large"
+            :color="badge.isUnlocked ? 'primary' : 'grey-lighten-1'"
+          ></v-icon>
+          <div class="text-caption mt-1">{{ badge.name }}</div>
+          <div class="text-caption text-grey">{{ badge.threshold }} days</div>
+        </v-col>
+      </v-row>
+    </v-carousel-item>
+  </v-carousel>
 </template>
 
 <script setup>
@@ -66,4 +61,8 @@ const badgeSlides = computed(() => {
 });
 </script>
 
-<style></style>
+<style scoped>
+.v-carousel .v-window__container .v-window__controls {
+  padding: 100px;
+}
+</style>

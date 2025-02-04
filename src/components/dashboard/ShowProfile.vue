@@ -19,10 +19,9 @@
     </v-card-title>
   </v-card>
   <div class="mx-2">
-    <DashboardCards />
     <DailyProgress />
-    <BadgesCarousel />
     <v-btn @click="startTest">Start new game!</v-btn>
+    <DashboardCards />
   </div>
 </template>
 
