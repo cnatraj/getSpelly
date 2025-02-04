@@ -1,7 +1,7 @@
 // Environment check
 const isDevelopment = import.meta.env.MODE === "development";
 
-class Logger {
+class Clog {
   static debug(...args) {
     if (isDevelopment) {
       console.log("[DEBUG]", ...args);
@@ -34,4 +34,4 @@ class Logger {
   }
 }
 
-export default Logger;
+export default Clog;

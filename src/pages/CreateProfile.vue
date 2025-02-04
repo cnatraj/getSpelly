@@ -94,7 +94,7 @@ import { onMounted, ref } from "vue";
 import { useProfileStore } from "@/stores/profile";
 import { useRouter } from "vue-router";
 import { generateRandomName } from "@/constants/profileNames";
-import Logger from "@/utils/logger";
+import Clog from "@/utils/logger";
 
 const profileStore = useProfileStore();
 const router = useRouter();
@@ -123,7 +123,7 @@ const createRandomNames = () => {
 };
 
 onMounted(() => {
-  Logger.debug("OnMounted");
+  Clog.debug("OnMounted");
   createRandomNames();
 });
 </script>

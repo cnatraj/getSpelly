@@ -115,7 +115,7 @@
 import { getCurrentTitle, getNextTitle, titles } from "@/constants/titles";
 import { usePointsStore } from "@/stores/points";
 import { useProfileStore } from "@/stores/profile";
-import Logger from "@/utils/logger";
+import Clog from "@/utils/logger";
 import { computed, onMounted, ref, watch } from "vue";
 
 const pointsStore = usePointsStore();
@@ -133,7 +133,7 @@ const currentTitle = computed(() => {
 });
 
 const nextTitle = computed(() => {
-  Logger.debug("pointsStore.totalGamesPlayed", pointsStore.totalGamesPlayed);
+  Clog.debug("pointsStore.totalGamesPlayed", pointsStore.totalGamesPlayed);
   return getNextTitle(pointsStore.totalGamesPlayed);
 });
 
@@ -158,16 +158,16 @@ const lastAwardedTitleIndex = computed(() => {
 });
 
 const calculateProgress = (games) => {
-  Logger.debug("---calculateProgress---");
+  Clog.debug("---calculateProgress---");
   if (!nextTitle.value) return 100;
   if (nextTitle.value.threshold == 0) return 0;
 
   const currentMilestone = titles.find((t) => t.title === currentTitle.value);
   const currentThreshold = currentMilestone ? currentMilestone.threshold : 0;
 
-  Logger.debug("games", games);
-  Logger.debug("currentThreshold", currentThreshold);
-  Logger.debug("nextTitle.value.threshold", nextTitle.value.threshold);
+  Clog.debug("games", games);
+  Clog.debug("currentThreshold", currentThreshold);
+  Clog.debug("nextTitle.value.threshold", nextTitle.value.threshold);
 
   // calculate progress
   const progress =
@@ -179,13 +179,13 @@ const calculateProgress = (games) => {
   testsRemainingTolevelup.value = nextTitle.value.threshold - games;
 
   currentTitleImage.value = getCurrentTitle(games).image;
-  Logger.debug("getCurrentTitle", getCurrentTitle(games));
+  Clog.debug("getCurrentTitle", getCurrentTitle(games));
   return Math.min(Math.max(progress, 0), 100);
 };
 
 const updateTitle = async () => {
   if (!profileStore.activeProfile) return;
-  Logger.debug("nextTitle.value.title", nextTitle.value.title);
+  Clog.debug("nextTitle.value.title", nextTitle.value.title);
   try {
     const { error } = await profileStore.updateProfileTitle(
       nextTitle.value.title
