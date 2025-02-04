@@ -9,7 +9,7 @@
     color="tertiary-darken"
   >
     <v-carousel-item v-for="(slide, index) in badgeSlides" :key="index">
-      <v-row justify="center" align="bottom" class="fill-height">
+      <v-row justify="center" class="fill-height">
         <v-col
           v-for="badge in slide"
           :key="badge.id"

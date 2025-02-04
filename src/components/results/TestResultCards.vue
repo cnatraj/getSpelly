@@ -1,6 +1,6 @@
 <template>
-  <v-card class="mx-2 mt-n4" color="white" rounded="lg" elevation="1">
-    <v-card-item>
+  <v-card class="mx-2 mt-2" color="surface" rounded="lg" elevation="0">
+    <v-card-item class="text-tertiary">
       <v-row>
         <v-col cols="4" v-for="(stat, i) in stats" :key="i">
           <div class="d-flex align-center">

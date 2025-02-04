@@ -1,7 +1,7 @@
 <template>
   <v-list density="compact" bg-color="white" class="ma-2 rounded-xl">
     <v-list-subheader class="text-tertiary font-weight-bold"
-      >Words in Test</v-list-subheader
+      >Review Words in Test</v-list-subheader
     >
     <v-list-item v-for="word in props.completedWords" :key="word.id">
       <template v-slot:default>

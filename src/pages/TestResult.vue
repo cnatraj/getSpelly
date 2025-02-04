@@ -1,14 +1,17 @@
 <template>
-  <v-img src="@/assets/images/spelly-results-bg.jpg" height="300" cover>
+  <v-img src="@/assets/images/spelly-results-bg.jpg" height="275" cover>
     <AccountBar />
     <Spelly image-url="spelly-excited" :width="135" :text="feedback" />
     <!-- <AchievementsCarousel :carousel-cards="achievements" /> -->
   </v-img>
-  <TestResultCards :test-result="test" />
   <TitleProgess />
-  <DailyProgress class="mx-2" />
+  <TestResultCards :test-result="test" />
+  <DailyProgress class="ma-2" />
+
   <div class="mx-2 my-4">
-    <v-btn @click="startTest">NEXT TEST!</v-btn>
+    <v-btn @click="startTest" color="secondary" class="text-white"
+      >Spell Again!</v-btn
+    >
   </div>
   <WordList :completed-words="completedWords" />
 </template>

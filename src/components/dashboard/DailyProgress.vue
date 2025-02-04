@@ -1,6 +1,6 @@
 <template>
-  <v-card class="mb-4" rounded="lg" color="tertiary-lighten" elevation="0">
-    <v-card-title class="tedxt-tertiary-darken">Daily Streak</v-card-title>
+  <v-card class="mb-4" rounded="lg" color="secondary-lighten" elevation="0">
+    <v-card-title class="text-tertiary">Daily Streak</v-card-title>
     <v-card-text>
       <v-row justify="space-around" align="center">
         <v-col
@@ -19,7 +19,7 @@
       <v-row>
         <v-col><v-divider></v-divider></v-col>
       </v-row>
-      <v-row>
+      <v-row no-gutters class="mt-4">
         <v-col>
           <BadgesCarousel />
         </v-col>

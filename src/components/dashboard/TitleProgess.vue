@@ -1,35 +1,37 @@
 <template>
-  <div class="ma-2">
-    <div class="d-flex align-center">
-      <div>
-        <v-img :src="currentTitleImage" :width="60" :height="60"></v-img>
-      </div>
-      <div class="mx-2" style="width: 100%">
-        <div class="text-subtitle-2 font-weight-bold text-darkText">
-          {{ currentTitle }}
-          <v-spacer></v-spacer>
-        </div>
-
+  <v-card class="mx-2 mt-n4" color="white" rounded="lg" elevation="1">
+    <v-card-item>
+      <div class="d-flex align-center">
         <div>
-          <v-progress-linear
-            :model-value="progress"
-            color="tertiary"
-            height="8"
-            rounded
-          >
-          </v-progress-linear>
-          <div
-            class="text-caption text-medium-emphasis"
-            v-if="testsRemainingTolevelup > 0"
-          >
-            ✨ Only {{ testsRemainingTolevelup }} more
-            {{ testsRemainingTolevelup == 1 ? "game" : "games" }} to the next
-            level!
+          <v-img :src="currentTitleImage" :width="60" :height="60"></v-img>
+        </div>
+        <div class="mx-2" style="width: 100%">
+          <div class="text-subtitle-2 font-weight-bold text-darkText">
+            {{ currentTitle }}
+            <v-spacer></v-spacer>
+          </div>
+
+          <div>
+            <v-progress-linear
+              :model-value="progress"
+              color="tertiary"
+              height="8"
+              rounded
+            >
+            </v-progress-linear>
+            <div
+              class="text-caption text-medium-emphasis"
+              v-if="testsRemainingTolevelup > 0"
+            >
+              ✨ Only {{ testsRemainingTolevelup }} more
+              {{ testsRemainingTolevelup == 1 ? "game" : "games" }} to the next
+              level!
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </div>
+    </v-card-item>
+  </v-card>
 
   <!-- Title Update Modal -->
   <v-dialog
@@ -123,7 +125,7 @@ const progress = computed(() => {
 });
 
 const currentTitle = computed(() => {
-  return profileStore.activeProfile?.title || titles[0];
+  return profileStore.activeProfile?.title || "";
 });
 
 const nextTitle = computed(() => {
