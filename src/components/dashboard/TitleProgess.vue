@@ -29,12 +29,6 @@
         </div>
       </div>
     </div>
-
-    <div v-if="showTitleChangeModal">
-      Title Changed:
-      <div>From: {{ currentTitle }}</div>
-      <div>To: {{ nextTitle.title }}</div>
-    </div>
   </div>
 
   <!-- Title Update Modal -->

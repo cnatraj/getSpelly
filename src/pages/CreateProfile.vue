@@ -50,24 +50,68 @@
           You can use your real name or a silly made-up name—it’s up to you! 🎭
         </p>
 
-        <v-btn class="mt-4" :disabled="name.length == 0" @click="nextStep"
+        <v-btn class="mt-4" :disabled="name.length == 0" @click="showTitleCard"
           >Next</v-btn
         >
       </v-carousel-item>
       <v-carousel-item class="mx-2">
-        <p class="text-h6 text-tertiary mt-4">How to Play with Spelly</p>
+        <div class="text-darkText">
+          <p class="text-h6 text-tertiary mt-4">
+            Welcome to your Spelling Adventure!
+          </p>
 
+          <p class="text-darkText mt-2 text-center">
+            Congrats! You’ve earned your first title:
+          </p>
+          <v-img
+            :src="firstTitle.image"
+            width="125"
+            cover
+            class="mx-auto"
+          ></v-img>
+          <div class="text-h5 text-center">{{ firstTitle.title }}</div>
+
+          <div class="mt-2 text-body-2">
+            Play more games to unlock titles like
+            <span class="text-tertiary font-weight-bold">Word Ninja</span> and
+            <span class="text-tertiary font-weight-bold">Spelling Sorcerer</span
+            >. Each title comes with a fun mystery gift!
+          </div>
+        </div>
+
+        <v-btn class="my-4" @click="showRulesCard">Claim your title!</v-btn>
+      </v-carousel-item>
+
+      <v-carousel-item>
+        <p class="text-h6 text-tertiary mt-4">How to play with Spelly</p>
+        <div class="text-body-2">
+          Hey there, future
+          <span class="font-weight-bold">Spelling Champion!</span> Here's how
+          you play with Spelly the Owl
+        </div>
         <v-list bg-color="white">
           <v-list-item>
-            <strong>Listen up!</strong> Spelly says a word—<strong
-              >you type it in!</strong
+            <template v-slot:prepend>
+              <div class="mr-2">👂</div>
+            </template>
+            Spelly will say a word, and you type it in!
+            <v-btn
+              :block="false"
+              size="small"
+              color="tertiary-lighten"
+              @click="speak('house')"
+              >🔊 Listen to Spelly</v-btn
             >
           </v-list-item>
           <v-list-item>
+            <template v-slot:prepend>
+              <div class="mr-2">🤔</div>
+            </template>
+
             Tap the
             <v-avatar color="primary" size="small">
               <v-icon
-                @click="speak(word.test_words.word)"
+                @click="speak('house')"
                 icon="mdi-volume-high"
                 color="primary-darken"
               ></v-icon>
@@ -75,14 +119,15 @@
             to hear the word again!
           </v-list-item>
           <v-list-item>
-            <strong>Spell it right?</strong> Boom! <strong>+10 points!</strong>
+            <template v-slot:prepend> <div class="mr-2">🏆</div></template>
+            Every correct word earns 10 points.
           </v-list-item>
           <v-list-item>
-            Spell it
-            <strong>within 10 seconds</strong> for +10 extra points!
+            <template v-slot:prepend> <div class="mr-2">⚡</div></template>
+
+            Spell within 10 seconds for extra points!
           </v-list-item>
         </v-list>
-
         <v-btn class="my-4" @click="createProfile">Ready? Let’s go! 🚀</v-btn>
       </v-carousel-item>
     </v-carousel>
@@ -95,6 +140,8 @@ import { useProfileStore } from "@/stores/profile";
 import { useRouter } from "vue-router";
 import { generateRandomName } from "@/constants/profileNames";
 import Clog from "@/utils/logger";
+import { getCurrentTitle } from "@/constants/titles";
+import speak from "@/components/common/speech";
 
 const profileStore = useProfileStore();
 const router = useRouter();
@@ -102,10 +149,16 @@ const name = ref("");
 const onboardingStep = ref(0);
 const spellyText = ref("Hi! My name is Spelly. What is your name?");
 const randomNames = ref([]);
+const firstTitle = ref(null);
 
-const nextStep = () => {
+const showTitleCard = () => {
   onboardingStep.value++;
   spellyText.value = "Nice to meet you " + name.value + "! What a cool name!";
+};
+
+const showRulesCard = () => {
+  onboardingStep.value++;
+  spellyText.value = "Ready to start " + name.value + "?";
 };
 
 const createProfile = async () => {
@@ -122,8 +175,12 @@ const createRandomNames = () => {
   }
 };
 
+const getFirstTitle = () => {
+  firstTitle.value = getCurrentTitle(0);
+};
 onMounted(() => {
   Clog.debug("OnMounted");
   createRandomNames();
+  getFirstTitle();
 });
 </script>
