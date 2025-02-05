@@ -7,7 +7,7 @@
         </div>
         <div class="mx-2" style="width: 100%">
           <div class="text-title">
-            Welcome back {{ profileStore.activeProfile.name }}!
+            Welcome back {{ profileStore.activeProfile?.name }}!
           </div>
           <div
             class="text-subtitle-2 font-weight-medium text-darkText opacity-40"

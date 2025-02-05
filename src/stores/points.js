@@ -24,15 +24,19 @@ export const usePointsStore = defineStore("points", () => {
       const { data, error } = await getPointsForProfile(profileId);
 
       if (error && error.code !== "PGRST116") throw error;
-      if (data) {
+      if (error?.code === "PGRST116") {
+        // No points record found for this profile
+        // Initialize points for the profile
+        await initializePoints(profileId);
+      } else if (error) {
+        throw error;
+      } else if (data) {
         points.value = data.total_points;
         totalGamesPlayed.value = data.total_games_played;
         perfectGames.value = data.perfect_games;
         fastestTime.value = data.fastest_time_ms;
         dailyStreak.value = data.daily_streak;
         highestDailyStreak.value = data.highest_daily_streak;
-      } else {
-        await initializePoints(profileId);
       }
     } catch (error) {
       console.log("Error fetching points:", error);

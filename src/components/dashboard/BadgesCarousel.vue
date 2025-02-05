@@ -21,7 +21,12 @@
             size="x-large"
             :color="badge.isUnlocked ? 'primary' : 'grey-lighten-1'"
           ></v-icon>
-          <div class="text-caption mt-1">{{ badge.name }}</div>
+          <div
+            class="text-caption mt-1"
+            :class="!badge.isUnlocked ? 'text-grey' : ''"
+          >
+            {{ badge.name }}
+          </div>
           <div class="text-caption text-grey">{{ badge.threshold }} days</div>
         </v-col>
       </v-row>

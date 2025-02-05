@@ -47,7 +47,7 @@ export const useProfileStore = defineStore("profile", () => {
 
       // set first profile as active, if none is selected
       if (!activeProfile.value && data.length > 0) {
-        setActiveProfile(data[0]);
+        await setActiveProfile(data[0]);
       }
     } catch (error) {
       console.log("error fetching profiles: ", error);
