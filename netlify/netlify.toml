@@ -1,0 +1,5 @@
+[functions]
+  directory = "."
+  node_bundler = "esbuild"
+  included_files = ["node_modules/@google-cloud/text-to-speech/**/*"]
+  external_node_modules = ["@google-cloud/text-to-speech"]

@@ -13,16 +13,15 @@ utterance.lang = "en-US";
 
 const speak = async (text) => {
   try {
-    const response = await fetch(
-      `${import.meta.env.VITE_FUNCTIONS_URL}/text-to-speech`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ text }),
-      }
-    );
+    const body = JSON.stringify({ text });
+
+    const response = await fetch("/api/text-to-speech", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body,
+    });
 
     if (!response.ok) {
       throw new Error("Failed to generate speech");
