@@ -1,8 +1,0 @@
-{
-  "name": "text-to-speech",
-  "version": "1.0.0",
-  "description": "Google Text-to-Speech Netlify function",
-  "dependencies": {
-    "@google-cloud/text-to-speech": "^5.0.1"
-  }
-}
