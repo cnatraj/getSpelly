@@ -1,6 +1,16 @@
 const { TextToSpeechClient } = require("@google-cloud/text-to-speech");
 
 exports.handler = async function (event, context) {
+  // Set CORS headers
+  const headers = {
+    "Access-Control-Allow-Origin":
+      process.env.NODE_ENV === "development"
+        ? "http://localhost:3000"
+        : "https://app.getspelly.com",
+    "Access-Control-Allow-Headers": "Content-Type",
+    "Access-Control-Allow-Methods": "POST, OPTIONS",
+  };
+
   // Only allow POST requests
   if (event.httpMethod !== "POST") {
     return {
