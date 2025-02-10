@@ -5,7 +5,18 @@
 [build.environment]
   NODE_VERSION = "18"
 
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+  included_files = ["node_modules/@google-cloud/text-to-speech/**/*"]
+  external_node_modules = ["@google-cloud/text-to-speech"]
+
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
+
+[[redirects]]
+  from = "/.netlify/functions/*"
+  status = 200
+  force = true
