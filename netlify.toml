@@ -18,5 +18,5 @@
 
 [[redirects]]
   from = "/.netlify/functions/*"
+  to = "/.netlify/functions/:splat"
   status = 200
-  force = true
