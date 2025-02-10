@@ -38,7 +38,7 @@ exports.handler = async function (event, context) {
     // Construct the request
     const request = {
       input: { text },
-      voice: { languageCode: "en-US", ssmlGender: "NEUTRAL" },
+      voice: { languageCode: "en-US", name: "en-US-Chirp-HD-F" },
       audioConfig: { audioEncoding: "MP3" },
     };
 
